@@ -3,183 +3,144 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void display(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        cout << arr[i] << " ";
+void display(int arr[],int n){
+    for(int i=0;i<n;i++){
+        cout<<arr[i]<<" ";
     }
-    cout << endl;
+    cout<<"\n";
 }
 
-void swap(int &a, int &b)
-{
+void swap(int &a,int &b){
     int temp = a;
     a = b;
     b = temp;
 }
 
-void bubble_sort(int arr[], int n)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        for (int j = 0; j < n - i - 1; j++)
-        {
-            if (arr[j] > arr[j + 1])
-            {
-                swap(arr[j], arr[j + 1]);
+void bubble_sort(int arr[],int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(arr[j]>arr[j+1]){
+                swap(arr[j],arr[j+1]);
             }
         }
     }
 }
 
-void insertion_sort(int arr[], int n)
-{
-    for (int i = 1; i <= n - 1; i++)
-    {
-        int key = arr[i];
-        int j = i - 1;
-        while (key < arr[j] and j >= 0)
-        {
-            arr[j + 1] = arr[j];
+void insertion_sort(int arr[],int n){
+    for(int i=1;i<n;i++){
+        int j = i-1;
+        int temp = arr[i];
+        while(j>=0 and temp<arr[j]){
+            arr[j+1] = arr[j];
             j--;
         }
-        arr[j + 1] = key;
+        arr[j+1] = temp;
     }
 }
 
-void selection_sort(int arr[], int n)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        int minIndex = i;
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j] < arr[minIndex])
-            {
-                minIndex = j;
+void selection_sort(int arr[],int n){
+    for(int i=0;i<n-1;i++){
+        int min_index = i;
+        for(int j=i+1;j<n;j++){
+            if(arr[j]<arr[min_index]){
+                min_index = j;
             }
         }
-        swap(arr[minIndex], arr[i]);
+        swap(arr[i],arr[min_index]);
     }
 }
 
-int partition(int arr[], int low, int high)
-{
-    int pivot = arr[low];
-    int i = low + 1;
-    int j = high;
-    do
-    {
-        while (arr[i] <= pivot)
-        {
-            i++;
-        }
-        while (arr[j] > pivot)
-        {
-            j--;
-        }
-        if (i < j)
-        {
-            swap(arr[i], arr[j]);
-        }
-    } while (i < j);
-    swap(arr[low], arr[j]);
-    return j;
-}
-
-void quick_sort(int arr[], int low, int high)
-{
-    if (low < high)
-    {
-        int index = partition(arr, low, high);
-        quick_sort(arr, low, index - 1);
-        quick_sort(arr, index + 1, high);
-    }
-}
-
-void merge(int arr[], int n, int low, int mid, int high)
-{
-    int i = low, j = mid + 1, k = low;
-    int *sorted_arr = new int[n];
-    while (i <= mid and j <= high)
-    {
-        if (arr[i] < arr[j])
-        {
-            sorted_arr[k] = arr[i];
+void merge(int arr[],int n,int start,int mid,int end){
+    int i = start;
+    int k = start;
+    int j = mid+1;
+    int *new_arr = new int[end+1];
+    while(i<=mid and j<=end){
+        if(arr[i]<arr[j]){
+            new_arr[k] = arr[i];
             i++;
             k++;
         }
-        else
-        {
-            sorted_arr[k] = arr[j];
+        else{
+            new_arr[k] = arr[j];
             j++;
             k++;
         }
     }
-    while (i <= mid)
-    {
-        sorted_arr[k] = arr[i];
+    while(i<=mid){
+        new_arr[k] = arr[i];
         i++;
         k++;
     }
-    while (j <= high)
-    {
-        sorted_arr[k] = arr[j];
+    while(j<=end){
+        new_arr[k] = arr[j];
         j++;
         k++;
     }
-    for (int i = low; i <= high; i++)
-    {
-        arr[i] = sorted_arr[i];
+    for(int i=start;i<=end;i++){
+        arr[i] = new_arr[i];
     }
 }
 
-void merge_sort(int arr[], int n, int low, int high)
-{
-    if (low < high)
-    {
-        int mid = (low + high) / 2;
-        merge_sort(arr, n, low, mid);
-        merge_sort(arr, n, mid + 1, high);
-        merge(arr, n, low, mid, high);
+void merge_sort(int arr[],int n,int start,int end){
+    if(start<end){
+        int mid = start+(end-start)/2;
+        merge_sort(arr,n,start,mid);
+        merge_sort(arr,n,mid+1,end);
+        merge(arr,n,start,mid,end);
     }
 }
 
-void count_sort(int arr[], int n)
-{
-    int max = *max_element(arr, arr + n);
-    int new_arr[max + 1] = {0};
-    for (int i = 0; i < n; i++)
-    {
-        new_arr[arr[i]] += 1;
+void quick_sort(int arr[],int n,int start,int end){
+    if(start>=end){
+        return;
     }
-    int i = 0, j = 0;
-    while (i <= max)
-    {
-        if (new_arr[i] != 0)
-        {
-            arr[j] = i;
-            new_arr[i] -= 1;
-            j++;
+    int low = start;
+    int high = end;
+    int mid = low+(high-low)/2;
+    int pivot = arr[mid];
+    while(low<=high){
+        while(arr[low]<pivot){
+            low++;
         }
-        else
-        {
+        while(arr[high]>pivot){
+            high--;
+        }
+        if(low<=high){
+            swap(arr[low],arr[high]);
+            low++;
+            high--;
+        }
+    }
+    quick_sort(arr,n,start,high);
+    quick_sort(arr,n,low,end); 
+}
+
+
+void cyclic_sort(int arr[],int n){
+    int i=0;
+    while(i<n){
+        int temp = arr[i]-1;
+        if(arr[i]!=arr[temp]){
+            swap(arr[i],arr[temp]);
+        }
+        else{
             i++;
         }
     }
 }
 
-int main()
-{
-    int n = 7;
-    int arr[n] = {7, 2, 9, 1, 11, 4, 2};
+int main(){
+    int arr[] = {7, 2, 9, 1, 11, 4, 2};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    
+    int nums[5] = {3,5,2,1,4};
+
+    // display(nums, 5);
+    // cyclic_sort(nums,5);
+    // display(nums, 5);
     display(arr, n);
-    // selection_sort(arr,n);
-    // merge_sort(arr,n, 0, n - 1);
-    // quick_sort(arr,0,n-1);
-    // merge_sort(arr,n,0,n-1);
-    count_sort(arr, n);
+    merge_sort(arr,n,0,n-1);
     display(arr, n);
     return 0;
 }

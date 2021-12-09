@@ -10,7 +10,7 @@ void display(int arr[],int n){
 }
 
 void merge(int arr[], int low, int mid, int high){
-    int *sorted_arr = new int[sizeof(arr)/sizeof(arr[0])];
+    int *sorted_arr = new int[high+1];
     int i,j,k;
     i=low;
     j=mid+1;
