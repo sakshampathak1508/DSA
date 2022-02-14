@@ -12,7 +12,7 @@ public:
 node *create(node *head)
 {
     int n, data;
-    cout << "Enter the number of odes init: ";
+    cout << "Enter the number of nodes init: ";
     cin >> n;
     if (head == NULL)
     {

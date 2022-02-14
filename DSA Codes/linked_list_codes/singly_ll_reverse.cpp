@@ -39,6 +39,20 @@ node* reverse(node* head){
     return p;
 }
 
+node* reverse_rec(node* head,node* ptr){
+    if(head==NULL){
+        return NULL;
+    }
+    if(head->next==NULL){
+        head = ptr;
+        return ptr;
+    }
+    node* curr = reverse_rec(head,ptr->next);
+    curr->next = ptr;
+    ptr->next = NULL;
+    return ptr;
+}
+
 /**
  * Definition for singly-linked list.
  * struct node {

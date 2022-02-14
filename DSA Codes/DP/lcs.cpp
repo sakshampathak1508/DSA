@@ -44,14 +44,17 @@ int lcs_memo(string s,string t,vector<vector<int>>& ans){
 }
 
 
+// int lcs_dp(string s,string t,vector<vector<int>>& ans){
+    
+// }
 
 int main(){
-    string s;
-    string t;
-    cout<<"enter s: ";
-    cin>>s;
-    cout<<"enter t: ";
-    cin>>t;
+    string s = "abcd";
+    string t = "abed";
+    // cout<<"enter s: ";
+    // cin>>s;
+    // cout<<"enter t: ";
+    // cin>>t;
 
     cout<<"Lcs is : "<<lcs(s,t);
     return 0;
